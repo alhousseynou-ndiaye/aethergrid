@@ -1,0 +1,27 @@
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: aethergrid-postgres
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_DB: aethergrid
+      POSTGRES_USER: aethergrid
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set password in .env}
+
+    ports:
+      - "127.0.0.1:5433:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./infra/postgres/init:/docker-entrypoint-initdb.d:ro
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U aethergrid -d aethergrid"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+volumes:
+  postgres_data:

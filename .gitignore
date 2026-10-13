@@ -1,0 +1,15 @@
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Local datasets
+data/raw/*.csv
+
+# Local configuration
+.env
+
+# Editors / OS
+.vscode/
+.DS_Store
